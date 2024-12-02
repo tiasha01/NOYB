@@ -48,7 +48,7 @@ function Signin() {
             setSigninError(false);
             setOpenBackdrop(true);
             // TODO: pass the username in the request after fixing backend
-            axios.post('http://ec2-15-206-84-53.ap-south-1.compute.amazonaws.com:8097/api/v1/auth/sign_in', {
+            axios.post('http://ec2-13-232-61-89.ap-south-1.compute.amazonaws.com:8097/api/v1/auth/sign_in', {
                 password: password,
                 name: username
             })
