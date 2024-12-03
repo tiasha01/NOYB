@@ -23,7 +23,8 @@ function Signin() {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [tokenValue, setTokenValue] = useState("");
-
+    const [nameValue, setNameValue] = useState("");
+    const [signinState, setSigninState] = useState(false);
 
     function validate(username, password){
         if(username === "" && password === ""){
@@ -47,14 +48,15 @@ function Signin() {
             setSigninErrorMessage("");
             setSigninError(false);
             setOpenBackdrop(true);
-            // TODO: pass the username in the request after fixing backend
             axios.post('http://ec2-13-232-61-89.ap-south-1.compute.amazonaws.com:8097/api/v1/auth/sign_in', {
                 password: password,
                 name: username
             })
                 .then(function (response) {
                     setTokenValue(response.data.token);
+                    setNameValue(response.data.username);
                     setOpenBackdrop(false);
+                    setSigninState(true);
                     setSnackbarMessage("Sign In Successful!");
                     setOpenSnackbar(true);
                 })
@@ -80,7 +82,10 @@ function Signin() {
     }
 
     function handleSnackbarClose() {
-        Cookies.set('token', tokenValue, { expires: 1 });
+        if(signinState){
+            Cookies.set('token', tokenValue, { expires: 1 });
+            Cookies.set('name', nameValue, { expires: 1 });
+        }
         setOpenSnackbar(false);
     }
 
@@ -107,18 +112,18 @@ function Signin() {
                         height: '100vh',
                         display: 'flex',
                         justifyContent: 'flex-start',
-                        backgroundColor: '#00885F'
+                        backgroundColor: '#004a34'
                     }}>
                     <Box sx={{ height: '100vh',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'flex-start',
-                        backgroundColor: '#00885F'
+                        backgroundColor: '#004a34'
                     }}>
                         <Typography sx={{
                             fontSize: '8em',
                             fontWeight: 100,
-                            color: '#ffffff',
+                            color: '#a8ffc5',
                             marginTop: '18vh',
                             marginLeft: '5vw'
                             }}>
@@ -127,7 +132,7 @@ function Signin() {
                         <Typography sx={{
                             fontSize: '3em',
                             fontWeight: 400,
-                            color: '#ffffff',
+                            color: '#a8ffc5',
                             marginLeft: '5.5vw'
                             }}>
                             <span style={{ fontWeight: 'bold' }}>P</span>lacement
@@ -135,7 +140,7 @@ function Signin() {
                         <Typography sx={{
                             fontSize: '3em',
                             fontWeight: 400,
-                            color: '#ffffff',
+                            color: '#a8ffc5',
                             marginLeft: '5.5vw'
                             }}>
                             <span style={{ fontWeight: 'bold' }}>D</span>ata
@@ -143,7 +148,7 @@ function Signin() {
                         <Typography sx={{
                             fontSize: '3em',
                             fontWeight: 400,
-                            color: '#ffffff',
+                            color: '#a8ffc5',
                             marginLeft: '5.5vw'
                             }}>
                             <span style={{ fontWeight: 'bold' }}>A</span>nalytics
@@ -152,12 +157,12 @@ function Signin() {
                 </Box>
                 <Box sx={{ width: '45vw',
                     height: '100vh',
-                    backgroundColor: '#00D394'
+                    backgroundColor: '#00ad7a'
                 }}>
                     <Typography sx={{
-                        fontSize: '2em',
+                        fontSize: '2.5em',
                         fontWeight: 900,
-                        color: '#00593E',
+                        color: '#004a34',
                         marginTop: '28vh',
                         marginLeft: '12vw',
                         marginBottom: '1vw'
