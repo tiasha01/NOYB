@@ -1,8 +1,9 @@
-import {Backdrop, Box, Button, CircularProgress, Snackbar, Typography} from "@mui/material";
+import {Backdrop, Box, Button, CircularProgress, Snackbar, Tooltip, Typography} from "@mui/material";
 import {useEffect, useState} from "react";
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function Home() {
 
@@ -14,7 +15,6 @@ function Home() {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
 
-    //TODO: optimise signout api call
     function handleSignout(){
         setOpenBackdrop(true);
         axios.post('http://ec2-13-232-61-89.ap-south-1.compute.amazonaws.com:8097/api/v1/auth/sign_out', {
@@ -129,18 +129,20 @@ function Home() {
                             marginLeft: '1vw',
                             color: '#a8ffc5',
                         }}>
-                            Hello, <span style={{ fontWeight: 'bold' }}>{username}</span>
+                            Hello, <span style={{fontWeight: 'bold'}}>{username}</span>
                         </Typography>
-                        <Button
-                            variant="contained"
-                            component="label"
-                            onClick={handleSignout}
-                            sx={{
-                                marginLeft: '2vw',
-                                backgroundColor: '#007855'
-                            }}>
-                            Sign Out
-                        </Button>
+                        <Tooltip title="Good Bye!">
+                            <Button
+                                variant="contained"
+                                component="label"
+                                onClick={handleSignout}
+                                sx={{
+                                    marginLeft: '2vw',
+                                    backgroundColor: '#bf3600'
+                                }}>
+                                <LogoutIcon />
+                            </Button>
+                        </Tooltip>
                     </Box>
                 </Box>
                 <Box sx={{
@@ -152,6 +154,7 @@ function Home() {
                     <Box sx={{ width: '30vw',
                         height: '80vh',
                         display: 'flex',
+                        flexDirection: 'column',
                         margin: '5vh',
                         marginTop: '0vh',
                         marginRight: '2.5vh',
@@ -164,11 +167,12 @@ function Home() {
                             flexDirection: 'row',
                             alignItems: 'center',
                             justifyContent: 'flex-start',
-                            width: '50vw',
+                            width: '90%',
                             height: '10vh',
-                            margin: '3vh',
+                            margin: '5%',
+                            marginBottom: '2.5%',
                             borderRadius: '10px',
-                            backgroundColor: '#00c98e'
+                            backgroundColor: '#70e0bf'
                         }}>
                             <Button
                                 variant="contained"
@@ -193,6 +197,64 @@ function Home() {
                                 }}>
                                 {fileName}
                             </Typography>
+                        </Box>
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: '90%',
+                            flexGrow: 1,
+                            margin: '5%',
+                            marginTop: '2.5%',
+                            marginBottom: '2.5%',
+                            borderRadius: '10px',
+                            backgroundColor: '#70e0bf'
+                        }}>
+
+                        </Box>
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: '90%',
+                            height: '10vh',
+                            margin: '5%',
+                            marginTop: '2.5%',
+                            borderRadius: '10px',
+                            backgroundColor: '#70e0bf'
+                        }}>
+                            <Button
+                                variant="contained"
+                                component="label"
+                                sx={{
+                                    margin: '2vw',
+                                    backgroundColor: '#005e42'
+                                }}>
+                                Clear Selection
+                                <input
+                                    type="file"
+                                    accept=".xlsx, .xls"
+                                    onChange={handleSelectFile}
+                                    hidden
+                                />
+                            </Button>
+                            <Button
+                                variant="contained"
+                                component="label"
+                                sx={{
+                                    margin: '2vw',
+                                    backgroundColor: '#005e42'
+                                }}>
+                                Upload File
+                                <input
+                                    type="file"
+                                    accept=".xlsx, .xls"
+                                    onChange={handleSelectFile}
+                                    hidden
+                                />
+                            </Button>
                         </Box>
                     </Box>
                     <Box sx={{ width: '65vw',
