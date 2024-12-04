@@ -14,6 +14,7 @@ function Home() {
     const [openBackdrop, setOpenBackdrop] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [selectButtonText, setSelectButtonText] = useState("Select File");
 
     function handleSignout(){
         setOpenBackdrop(true);
@@ -46,11 +47,12 @@ function Home() {
     }
 
     function handleSelectFile(event){
-        const file = event.target.files[0]; 
+        let file = event.target.files[0];
         if(file){
-            setFileName(file.name); 
+            setFileName(file.name);
+            setSelectButtonText("re-Select File")
         }else{
-            setFileName("NO FILE SELECTED."); 
+            setFileName("NO FILE SELECTED.");
         }
     }
 
@@ -138,7 +140,7 @@ function Home() {
                                 onClick={handleSignout}
                                 sx={{
                                     marginLeft: '2vw',
-                                    backgroundColor: '#bf3600'
+                                    backgroundColor: '#d40000'
                                 }}>
                                 <LogoutIcon />
                             </Button>
@@ -181,7 +183,7 @@ function Home() {
                                     marginLeft: '1vw',
                                     backgroundColor: '#005e42'
                                 }}>
-                                Select File
+                                {selectButtonText}
                                 <input
                                     type="file"
                                     accept=".xlsx, .xls"
@@ -215,45 +217,22 @@ function Home() {
                         </Box>
                         <Box sx={{
                             display: 'flex',
-                            flexDirection: 'row',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            width: '90%',
+                            width: '100%',
                             height: '10vh',
-                            margin: '5%',
-                            marginTop: '2.5%',
                             borderRadius: '10px',
-                            backgroundColor: '#70e0bf'
+                            marginBottom: '1vh',
+                            backgroundColor: '#009e6f'
                         }}>
                             <Button
                                 variant="contained"
                                 component="label"
                                 sx={{
                                     margin: '2vw',
-                                    backgroundColor: '#005e42'
-                                }}>
-                                Clear Selection
-                                <input
-                                    type="file"
-                                    accept=".xlsx, .xls"
-                                    onChange={handleSelectFile}
-                                    hidden
-                                />
-                            </Button>
-                            <Button
-                                variant="contained"
-                                component="label"
-                                sx={{
-                                    margin: '2vw',
-                                    backgroundColor: '#005e42'
+                                    backgroundColor: '#00422f'
                                 }}>
                                 Upload File
-                                <input
-                                    type="file"
-                                    accept=".xlsx, .xls"
-                                    onChange={handleSelectFile}
-                                    hidden
-                                />
                             </Button>
                         </Box>
                     </Box>
