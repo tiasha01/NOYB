@@ -275,14 +275,58 @@ function Home() {
                     </Box>
                     <Box sx={{ width: '65vw',
                         height: '72vh',
-                        display: 'flex',
                         margin: '5vh',
                         marginTop: '0vh',
                         marginLeft: '2.5vh',
                         borderRadius: '10px',
-                        justifyContent: 'flex-start',
                         backgroundColor: '#499982'
                     }}>
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'flex-start',
+                            width: '13vw',
+                            height: '56vh',
+                            marginBottom: '2.5%',
+                            borderRadius: '10px',
+                            backgroundColor: '#499982'
+                        }}>
+                            <Box sx={{
+                                alignItems: 'center',
+                                width: '10vw',
+                                height: '20vh',
+                                margin: '10%',
+                                marginBottom: '2.5%',
+                                borderRadius: '10px',
+                                backgroundColor: '#9cdbc9',
+                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
+                            }}>
+                            </Box>
+                            <Box sx={{
+                                alignItems: 'center',
+                                width: '10vw',
+                                height: '20vh',
+                                margin: '10%',
+                                marginBottom: '2.5%',
+                                borderRadius: '10px',
+                                backgroundColor: '#9cdbc9',
+                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
+                            }}>
+                            </Box>
+                        </Box>
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            width: '96%',
+                            height: '10vh',
+                            margin: '2%',
+                            borderRadius: '10px',
+                            backgroundColor: '#9cdbc9',
+                            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
+                        }}>
+
+                        </Box>
                     </Box>
                 </Box>
                 <Box sx={{
@@ -291,7 +335,6 @@ function Home() {
                     height: '8vh',
                     backgroundColor: '#015c40'
                 }}>
-
                 </Box>
             </Box>
         </>
