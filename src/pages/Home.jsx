@@ -150,11 +150,11 @@ function Home() {
                 <Box sx={{
                     display: 'flex',
                     width: '100vw',
-                    height: '86vh',
+                    height: '78vh',
                     backgroundColor: '#023626'
                 }}>
                     <Box sx={{ width: '30vw',
-                        height: '80vh',
+                        height: '72vh',
                         display: 'flex',
                         flexDirection: 'column',
                         margin: '5vh',
@@ -162,7 +162,7 @@ function Home() {
                         marginRight: '2.5vh',
                         borderRadius: '10px',
                         justifyContent: 'flex-start',
-                        backgroundColor: '#009e6f'
+                        backgroundColor: '#499982'
                     }}>
                         <Box sx={{
                             display: 'flex',
@@ -174,14 +174,16 @@ function Home() {
                             margin: '5%',
                             marginBottom: '2.5%',
                             borderRadius: '10px',
-                            backgroundColor: '#70e0bf'
+                            backgroundColor: '#9cdbc9',
+                            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
                         }}>
                             <Button
                                 variant="contained"
                                 component="label"
                                 sx={{
                                     marginLeft: '1vw',
-                                    backgroundColor: '#005e42'
+                                    backgroundColor: '#005e42',
+                                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
                                 }}>
                                 {selectButtonText}
                                 <input
@@ -202,18 +204,49 @@ function Home() {
                         </Box>
                         <Box sx={{
                             display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            width: '90%',
+                            flexDirection: 'column',
+                            padding: '5%',
+                            width: '80%',
                             flexGrow: 1,
                             margin: '5%',
                             marginTop: '2.5%',
                             marginBottom: '2.5%',
                             borderRadius: '10px',
-                            backgroundColor: '#70e0bf'
+                            backgroundColor: '#9cdbc9',
+                            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
                         }}>
-
+                            <Typography
+                                color="#023626"
+                                sx={{
+                                    fontWeight: 'bold',
+                                    margin: '1%'
+                                }}>
+                                FILE SIZE:
+                            </Typography>
+                            <Typography
+                                color="#023626"
+                                sx={{
+                                    fontWeight: 'bold',
+                                    margin: '1%'
+                                }}>
+                                NUMBER OF ROWS:
+                            </Typography>
+                            <Typography
+                                color="#023626"
+                                sx={{
+                                    fontWeight: 'bold',
+                                    margin: '1%'
+                                }}>
+                                NUMBER OF COLUMN:
+                            </Typography>
+                            <Typography
+                                color="#023626"
+                                sx={{
+                                    fontWeight: 'bold',
+                                    margin: '1%'
+                                }}>
+                                COLUMN NAMES:
+                            </Typography>
                         </Box>
                         <Box sx={{
                             display: 'flex',
@@ -223,30 +256,42 @@ function Home() {
                             height: '10vh',
                             borderRadius: '10px',
                             marginBottom: '1vh',
-                            backgroundColor: '#009e6f'
+                            backgroundColor: '#499982'
                         }}>
                             <Button
                                 variant="contained"
                                 component="label"
                                 sx={{
                                     margin: '2vw',
-                                    backgroundColor: '#00422f'
+                                    backgroundColor: '#00422f',
+                                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
+                                    '&:hover': {
+                                        backgroundColor: '#e06c00',
+                                    }
                                 }}>
                                 Upload File
                             </Button>
                         </Box>
                     </Box>
                     <Box sx={{ width: '65vw',
-                        height: '80vh',
+                        height: '72vh',
                         display: 'flex',
                         margin: '5vh',
                         marginTop: '0vh',
                         marginLeft: '2.5vh',
                         borderRadius: '10px',
                         justifyContent: 'flex-start',
-                        backgroundColor: '#009e6f'
+                        backgroundColor: '#499982'
                     }}>
                     </Box>
+                </Box>
+                <Box sx={{
+                    display: 'flex',
+                    width: '100vw',
+                    height: '8vh',
+                    backgroundColor: '#015c40'
+                }}>
+
                 </Box>
             </Box>
         </>

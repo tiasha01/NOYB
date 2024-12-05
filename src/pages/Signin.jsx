@@ -112,13 +112,13 @@ function Signin() {
                         height: '100vh',
                         display: 'flex',
                         justifyContent: 'flex-start',
-                        backgroundColor: '#004a34'
+                        backgroundColor: '#024732'
                     }}>
                     <Box sx={{ height: '100vh',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'flex-start',
-                        backgroundColor: '#004a34'
+                        backgroundColor: '#024732'
                     }}>
                         <Typography sx={{
                             fontSize: '8em',
@@ -157,7 +157,7 @@ function Signin() {
                 </Box>
                 <Box sx={{ width: '45vw',
                     height: '100vh',
-                    backgroundColor: '#00ad7a'
+                    backgroundColor: '#57b398'
                 }}>
                     <Typography sx={{
                         fontSize: '2.5em',
@@ -190,7 +190,7 @@ function Signin() {
                             marginTop: '1vh',
                             marginLeft: '12vw',
                             width: '40%',
-                            backgroundColor: '#abedda',
+                            backgroundColor: '#c7ebe1',
                             input: {
                                 color: 'black',
                                 fontSize: '20px',
@@ -209,7 +209,7 @@ function Signin() {
                             marginTop: '2vh',
                             marginLeft: '12vw',
                             width: '40%',
-                            backgroundColor: '#abedda',
+                            backgroundColor: '#c7ebe1',
                             input: {
                                 color: 'black',
                                 letterSpacing: '3px',
