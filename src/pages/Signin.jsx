@@ -197,12 +197,12 @@ function Signin() {
                         label="USER NAME"
                         variant="standard"
                         type="text"
-                        color="success"
+                        color='#0d0047'
                         sx={{
                             marginTop: '1vh',
                             marginLeft: '12vw',
                             width: '40%',
-                            backgroundColor: '#DFF2EB',
+                            backgroundColor: '#f2f8ff',
                             input: {
                                 color: 'black',
                                 fontSize: '20px',
@@ -216,12 +216,12 @@ function Signin() {
                         label="PASSWORD"
                         variant="standard"
                         type="password"
-                        color="success"
+                        color='#0d0047'
                         sx={{
                             marginTop: '2vh',
                             marginLeft: '12vw',
                             width: '40%',
-                            backgroundColor: '#DFF2EB',
+                            backgroundColor: '#f2f8ff',
                             input: {
                                 color: 'black',
                                 letterSpacing: '3px',

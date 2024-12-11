@@ -35,6 +35,7 @@ function Home() {
     const [femalePercentage, setFemalePercentage] = useState("-");
     const [maleCount, setMaleCount] = useState("-");
     const [malePercentage, setMalePercentage] = useState("-");
+    const [hideBox, setHideBox] = useState(0);
 
     function resetToDefault() {
         setAnalyzeDisabled(true);
@@ -51,6 +52,7 @@ function Home() {
         setMaleCount("-");
         setMalePercentage("-");
         setAnalyzedFile(null);
+        setHideBox(0);
     }
 
     function handleSignout(){
@@ -157,6 +159,7 @@ function Home() {
                     setSnackbarMessage("Analysis complete!");
                     setOpenSnackbar(true);
                     setDownloadDisabled(false);
+                    setHideBox(1);
                 }
             })
             .catch((error) => {
@@ -590,7 +593,8 @@ function Home() {
                                 margin: '0.5vw',
                                 marginTop: '1.5vw',
                                 backgroundColor: placeableColor,
-                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
+                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
+                                opacity: hideBox
                             }}>
                                 <Box sx={{
                                     display: 'flex',
@@ -685,7 +689,8 @@ function Home() {
                                 margin: '0.5vw',
                                 marginTop: '1.5vw',
                                 backgroundColor: '#d79cff',
-                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
+                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
+                                opacity: hideBox
                             }}>
                                 <Box sx={{
                                     display: 'flex',
@@ -780,7 +785,8 @@ function Home() {
                                 margin: '0.5vw',
                                 marginTop: '1.5vw',
                                 backgroundColor: '#ae9cff',
-                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
+                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
+                                opacity: hideBox
                             }}>
                                 <Box sx={{
                                     display: 'flex',
@@ -875,7 +881,8 @@ function Home() {
                             margin: '1.5vw',
                             marginTop: '0',
                             backgroundColor: '#ccd8d9',
-                            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
+                            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
+                            opacity: hideBox
                         }}>
                         </Box>
                     </Box>
