@@ -11,6 +11,7 @@ import {useEffect, useState} from "react";
 import Cookies from 'js-cookie';
 import {useNavigate} from 'react-router-dom';
 import axios from "axios";
+import LoginIcon from '@mui/icons-material/Login';
 
 function Signin() {
 
@@ -108,23 +109,23 @@ function Signin() {
                 >
                     <CircularProgress color="inherit" />
                 </Backdrop>)}
-                <Box sx={{ width: '55vw',
+                <Box sx={{ width: '60vw',
                         height: '100vh',
                         display: 'flex',
                         justifyContent: 'flex-start',
-                        backgroundColor: '#024732'
+                        backgroundColor: '#4A628A'
                     }}>
                     <Box sx={{ height: '100vh',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'flex-start',
-                        backgroundColor: '#024732'
+                        backgroundColor: '#4A628A'
                     }}>
                         <Typography sx={{
                             fontSize: '8em',
                             fontWeight: 100,
-                            color: '#a8ffc5',
-                            marginTop: '18vh',
+                            color: '#ffffff',
+                            marginTop: '15vh',
                             marginLeft: '5vw'
                             }}>
                             RCCIIT
@@ -132,15 +133,15 @@ function Signin() {
                         <Typography sx={{
                             fontSize: '3em',
                             fontWeight: 400,
-                            color: '#a8ffc5',
-                            marginLeft: '5.5vw'
+                            color: '#ffffff',
+                            marginLeft: '5.5vw',
                             }}>
                             <span style={{ fontWeight: 'bold' }}>P</span>lacement
                         </Typography>
                         <Typography sx={{
                             fontSize: '3em',
                             fontWeight: 400,
-                            color: '#a8ffc5',
+                            color: '#ffffff',
                             marginLeft: '5.5vw'
                             }}>
                             <span style={{ fontWeight: 'bold' }}>D</span>ata
@@ -148,33 +149,44 @@ function Signin() {
                         <Typography sx={{
                             fontSize: '3em',
                             fontWeight: 400,
-                            color: '#a8ffc5',
+                            color: '#ffffff',
                             marginLeft: '5.5vw'
                             }}>
                             <span style={{ fontWeight: 'bold' }}>A</span>nalytics
                         </Typography>
                     </Box>
                 </Box>
-                <Box sx={{ width: '45vw',
+                <Box sx={{ width: '40vw',
                     height: '100vh',
-                    backgroundColor: '#57b398'
+                    backgroundColor: '#B9E5E8'
                 }}>
-                    <Typography sx={{
-                        fontSize: '2.5em',
-                        fontWeight: 900,
-                        color: '#004a34',
+                    <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'flex-start',
                         marginTop: '28vh',
                         marginLeft: '12vw',
-                        marginBottom: '1vw'
+                        marginBottom: '1vw',
+                        alignItems: 'center'
                     }}>
-                        Sign In
-                    </Typography>
+                        <Typography sx={{
+                            fontSize: '2.5em',
+                            fontWeight: 900,
+                            color: '#4A628A',
+                        }}>
+                            Sign In
+                        </Typography>
+                        <LoginIcon fontSize="large" sx={{
+                            paddingLeft: '0.5vw',
+                            color: '#4A628A',
+                        }}/>
+                    </Box>
                     {signinError && (<Typography sx={{
                         fontSize: '1em',
                         marginLeft: '12vw',
                         fontWeight: 400,
                         color: '#ffffff',
-                        backgroundColor: '#cc0000',
+                        backgroundColor: '#d40000',
                         width: '38%',
                         padding: '1%'
                     }}>
@@ -190,7 +202,7 @@ function Signin() {
                             marginTop: '1vh',
                             marginLeft: '12vw',
                             width: '40%',
-                            backgroundColor: '#c7ebe1',
+                            backgroundColor: '#DFF2EB',
                             input: {
                                 color: 'black',
                                 fontSize: '20px',
@@ -209,7 +221,7 @@ function Signin() {
                             marginTop: '2vh',
                             marginLeft: '12vw',
                             width: '40%',
-                            backgroundColor: '#c7ebe1',
+                            backgroundColor: '#DFF2EB',
                             input: {
                                 color: 'black',
                                 letterSpacing: '3px',
@@ -226,10 +238,14 @@ function Signin() {
                         onClick={handleSignin}
                         sx={{
                             marginTop: '3vh',
-                            marginLeft: '24.5vw',
-                            backgroundColor: '#005e42'
+                            marginLeft: '24vw',
+                            backgroundColor: '#4A628A',
+                            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
+                            '&:hover': {
+                                backgroundColor: '#7AB2D3',
+                            }
                         }}>
-                        Sign In
+                        <LoginIcon/>
                     </Button>
                     <Snackbar
                         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
