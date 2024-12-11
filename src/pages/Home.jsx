@@ -5,6 +5,8 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import LogoutIcon from '@mui/icons-material/Logout';
 import * as XLSX from "xlsx";
+import FemaleIcon from '@mui/icons-material/Female';
+import MaleIcon from '@mui/icons-material/Male';
 
 function Home() {
 
@@ -29,6 +31,10 @@ function Home() {
     const [placeableCount, setPlaceableCount] = useState("-");
     const [placeablePercentage, setPlaceablePercentage] = useState("-");
     const [placeableColor, setPlaceableColor] = useState("");
+    const [femaleCount, setFemaleCount] = useState("-");
+    const [femalePercentage, setFemalePercentage] = useState("-");
+    const [maleCount, setMaleCount] = useState("-");
+    const [malePercentage, setMalePercentage] = useState("-");
 
     function resetToDefault() {
         setAnalyzeDisabled(true);
@@ -39,6 +45,11 @@ function Home() {
         setPlaceablePercentage("-");
         setPlaceableColor("");
         setPlaceableCount("-");
+        setAnalyzedFile(null);
+        setFemaleCount("-");
+        setFemalePercentage("-");
+        setMaleCount("-");
+        setMalePercentage("-");
         setAnalyzedFile(null);
     }
 
@@ -140,6 +151,7 @@ function Home() {
                         type: 'application/octet-stream',
                     });
                     getPlaceableRowCount(blob);
+                    getPlaceableGenderCount(blob);
                     setAnalyzedFile(blob);
                     setOpenBackdrop(false);
                     setSnackbarMessage("Analysis complete!");
@@ -175,7 +187,7 @@ function Home() {
 
             const numberOfRows = jsonData.length;
             const numberOfColumns = jsonData[0]?.length || 0;
-            setNumberOfRows(numberOfRows);
+            setNumberOfRows(numberOfRows.toString());
             setNumberOfColumns(numberOfColumns);
         };
         reader.readAsArrayBuffer(file);
@@ -202,7 +214,49 @@ function Home() {
             }, 0);
 
             setPlaceableCount(placeableCount);
-            setPlaceablePercentage(Math.floor((placeableCount / numberOfRows) * 100));
+            setPlaceablePercentage((Math.round((placeableCount / numberOfRows) * 100)).toString());
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    function getPlaceableGenderCount(file) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            const arrayBuffer = e.target.result;
+            const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+            const sheet = workbook.Sheets[workbook.SheetNames[0]];
+            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+            const headerRow = jsonData[0];
+            const placeabilityIndex = headerRow.indexOf('Placeability');
+            const genderIndex = headerRow.indexOf('Gender');
+
+            if (placeabilityIndex === -1) {
+                setSnackbarMessage("Error: 'Placeability' column was not found!");
+                setOpenSnackbar(true);
+                return;
+            }
+            if (genderIndex === -1) {
+                setSnackbarMessage("Error: 'Gender' column was not found!");
+                setOpenSnackbar(true);
+                return;
+            }
+
+            let femaleCount = 0;
+            let maleCount = 0;
+
+            jsonData.slice(1).forEach((row) => {
+                if (row[placeabilityIndex] === 'Placeable') {
+                    if (row[genderIndex] === 'FEMALE') {
+                        femaleCount++;
+                    } else if (row[genderIndex] === 'MALE') {
+                        maleCount++;
+                    }
+                }
+            });
+            setFemaleCount(femaleCount.toString());
+            setMaleCount(maleCount.toString());
+            setFemalePercentage(Math.round((femaleCount/numberOfRows) * 100).toString());
+            setMalePercentage(Math.round((maleCount/numberOfRows) * 100).toString());
         };
         reader.readAsArrayBuffer(file);
     }
@@ -225,6 +279,15 @@ function Home() {
             Cookies.remove("name");
         }
         setOpenSnackbar(false);
+    }
+
+    function handleDownloadButton(){
+        if(analyzedFile){
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(analyzedFile);
+            link.download = 'Analytics.xlsx';
+            link.click();
+        }
     }
 
     useEffect(() => {
@@ -480,8 +543,8 @@ function Home() {
                         }}>
                             <Box sx={{
                                 display: 'flex',
-                                width: '15vw',
-                                marginLeft: '1.5vw',
+                                width: '10vw',
+                                marginLeft: '1.2vw',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
                                 borderRadius: '10px',
@@ -506,6 +569,7 @@ function Home() {
                                     variant="contained"
                                     component="label"
                                     disabled={downloadDisabled}
+                                    onClick={handleDownloadButton}
                                     sx={{
                                         margin: '1vw',
                                         backgroundColor: '#303e57',
@@ -538,10 +602,10 @@ function Home() {
                                     borderRadius: '10px',
                                 }}>
                                     <Typography
-                                        color='#2b2b2b'
+                                        color='#4a4a4a'
                                         sx={{
-                                            fontSize: '4em',
-                                            fontWeight: '300',
+                                            fontSize: '3.6em',
+                                            fontWeight: '400',
                                             margin: 'auto',
                                             marginBottom: '0',
                                             marginTop: '0',
@@ -558,7 +622,7 @@ function Home() {
                                             height: '20%',
                                             justifyContent: 'center'
                                         }}>
-                                        PLACEABLE
+                                        ~ PLACEABLE
                                     </Typography>
                                 </Box>
                                 <Box sx={{
@@ -613,27 +677,194 @@ function Home() {
                                 </Box>
                             </Box>
                             <Box sx={{
-                                alignItems: 'center',
+                                display: 'flex',
+                                flexDirection: 'row',
                                 width: '15vw',
                                 height: '20vh',
                                 borderRadius: '10px',
                                 margin: '0.5vw',
                                 marginTop: '1.5vw',
-                                backgroundColor: '#ccd8d9',
+                                backgroundColor: '#d79cff',
                                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
                             }}>
+                                <Box sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    width: '60%',
+                                    height: '100%',
+                                    borderRadius: '10px',
+                                }}>
+                                    <Typography
+                                        color='#4a4a4a'
+                                        sx={{
+                                            fontSize: '3.6em',
+                                            fontWeight: '400',
+                                            margin: 'auto',
+                                            marginBottom: '0',
+                                            marginTop: '0',
+                                            height: '60%'
+                                        }}>
+                                        {femalePercentage}%
+                                    </Typography>
+                                    <Typography
+                                        color='#2b2b2b'
+                                        sx={{
+                                            display: 'flex',
+                                            fontSize: '1em',
+                                            fontWeight: '600',
+                                            height: '20%',
+                                            justifyContent: 'center'
+                                        }}>
+                                        ~ FEMALE <FemaleIcon/>
+                                    </Typography>
+                                </Box>
+                                <Box sx={{
+                                    width: '40%',
+                                    Height: '100%'
+                                }}>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: '100%',
+                                        height: '40%',
+                                        borderTopRightRadius: '10px',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: '#ebebeb',
+                                    }}>
+                                        <Typography
+                                            color='#2b2b2b'
+                                            sx={{
+                                                fontSize: '2em',
+                                                fontWeight: '400',
+                                            }}>
+                                            {femaleCount}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        width: '100%',
+                                        height: '60%',
+                                        borderBottomRightRadius: '10px',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: '#d4d4d4'
+                                    }}>
+                                        <Typography
+                                            color='#2b2b2b'
+                                            sx={{
+                                                fontSize: '1em',
+                                                fontWeight: '400',
+                                            }}>
+                                            OUT OF
+                                        </Typography>
+                                        <Typography
+                                            color='#2b2b2b'
+                                            sx={{
+                                                fontSize: '2em',
+                                                fontWeight: '400',
+                                            }}>
+                                            {numberOfRows}
+                                        </Typography>
+                                    </Box>
+                                </Box>
                             </Box>
                             <Box sx={{
-                                alignItems: 'center',
+                                display: 'flex',
+                                flexDirection: 'row',
                                 width: '15vw',
                                 height: '20vh',
                                 borderRadius: '10px',
                                 margin: '0.5vw',
                                 marginTop: '1.5vw',
-                                marginRight: '1.5vw',
-                                backgroundColor: '#ccd8d9',
+                                backgroundColor: '#ae9cff',
                                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
                             }}>
+                                <Box sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    width: '60%',
+                                    height: '100%',
+                                    borderRadius: '10px',
+                                }}>
+                                    <Typography
+                                        color='#4a4a4a'
+                                        sx={{
+                                            fontSize: '3.6em',
+                                            fontWeight: '400',
+                                            margin: 'auto',
+                                            marginBottom: '0',
+                                            marginTop: '0',
+                                            height: '60%'
+                                        }}>
+                                        {malePercentage}%
+                                    </Typography>
+                                    <Typography
+                                        color='#2b2b2b'
+                                        sx={{
+                                            display: 'flex',
+                                            fontSize: '1em',
+                                            fontWeight: '600',
+                                            height: '20%',
+                                            justifyContent: 'center'
+                                        }}>
+                                        ~ MALE <MaleIcon/>
+                                    </Typography>
+                                </Box>
+                                <Box sx={{
+                                    width: '40%',
+                                    Height: '100%'
+                                }}>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        width: '100%',
+                                        height: '40%',
+                                        borderTopRightRadius: '10px',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: '#ebebeb',
+                                    }}>
+                                        <Typography
+                                            color='#2b2b2b'
+                                            sx={{
+                                                fontSize: '2em',
+                                                fontWeight: '400',
+                                            }}>
+                                            {maleCount}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        width: '100%',
+                                        height: '60%',
+                                        borderBottomRightRadius: '10px',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: '#d4d4d4'
+                                    }}>
+                                        <Typography
+                                            color='#2b2b2b'
+                                            sx={{
+                                                fontSize: '1em',
+                                                fontWeight: '400',
+                                            }}>
+                                            OUT OF
+                                        </Typography>
+                                        <Typography
+                                            color='#2b2b2b'
+                                            sx={{
+                                                fontSize: '2em',
+                                                fontWeight: '400',
+                                            }}>
+                                            {numberOfRows}
+                                        </Typography>
+                                    </Box>
+                                </Box>
                             </Box>
                         </Box>
                         <Box sx={{
