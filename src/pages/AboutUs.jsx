@@ -103,6 +103,24 @@ function Aboutus(){
 
                     </Box>
                 </Box>
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    width: '100vw',
+                    height: '20vh',
+                    backgroundColor: '#7AB2D3',
+                    alignItems: 'center'
+                }}>
+                    <Typography sx={{
+                        fontSize: '0.8em',
+                        fontWeight: '900',
+                        marginLeft: '3vw'
+                    }}>
+                        {'Copyright © RCCIIT PDA Team '}
+                        {new Date().getFullYear()}
+                        {'.'}
+                    </Typography>
+                </Box>
             </Box>
         </>
     );
