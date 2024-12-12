@@ -7,6 +7,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import * as XLSX from "xlsx";
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
+import { PieChart } from '@mui/x-charts/PieChart';
+import {axisClasses, BarChart} from "@mui/x-charts";
 
 function Home() {
 
@@ -35,7 +37,11 @@ function Home() {
     const [femalePercentage, setFemalePercentage] = useState("-");
     const [maleCount, setMaleCount] = useState("-");
     const [malePercentage, setMalePercentage] = useState("-");
-    const [hideBox, setHideBox] = useState(0);
+    const [CSECounts, setCSECounts] = useState({ MALE: 0, FEMALE: 0 });
+    const [ITCounts, setITCounts] = useState({ MALE: 0, FEMALE: 0 });
+    const [ECECounts, setECECounts] = useState({ MALE: 0, FEMALE: 0 });
+    const [EECounts, setEECounts] = useState({ MALE: 0, FEMALE: 0 });
+    const [AEIECounts, setAEIECounts] = useState({ MALE: 0, FEMALE: 0 });
 
     function resetToDefault() {
         setAnalyzeDisabled(true);
@@ -52,7 +58,11 @@ function Home() {
         setMaleCount("-");
         setMalePercentage("-");
         setAnalyzedFile(null);
-        setHideBox(0);
+        setCSECounts({ MALE: 0, FEMALE: 0 });
+        setITCounts({ MALE: 0, FEMALE: 0 });
+        setECECounts({ MALE: 0, FEMALE: 0 });
+        setEECounts({ MALE: 0, FEMALE: 0 });
+        setAEIECounts({ MALE: 0, FEMALE: 0 });
     }
 
     function handleSignout(){
@@ -86,9 +96,9 @@ function Home() {
     }
 
     function handleSelectButton(event){
-        resetToDefault();
         const file = event.target.files[0];
         if(file){
+            resetToDefault();
             setSelectFile(file);
             setFileName(file.name);
             setSelectButtonText("re-Select");
@@ -154,12 +164,12 @@ function Home() {
                     });
                     getPlaceableRowCount(blob);
                     getPlaceableGenderCount(blob);
+                    getStreamGenderCounts(blob)
                     setAnalyzedFile(blob);
                     setOpenBackdrop(false);
                     setSnackbarMessage("Analysis complete!");
                     setOpenSnackbar(true);
                     setDownloadDisabled(false);
-                    setHideBox(1);
                 }
             })
             .catch((error) => {
@@ -268,11 +278,11 @@ function Home() {
         if(placeablePercentage === "-"){
             setPlaceableColor('#b8cdcf');
         } else if(placeablePercentage <= 33){
-            setPlaceableColor('#eb605b');
+            setPlaceableColor('#ff2929');
         } else if(placeablePercentage <= 66){
-            setPlaceableColor('#ebc95b');
+            setPlaceableColor('#edcf26');
         } else{
-            setPlaceableColor('#5beb62');
+            setPlaceableColor('#26ed44');
         }
     }
 
@@ -292,6 +302,69 @@ function Home() {
             link.click();
         }
     }
+
+    function getStreamGenderCounts(file) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            const arrayBuffer = e.target.result;
+            const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+            const sheet = workbook.Sheets[workbook.SheetNames[0]];
+            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+            const headerRow = jsonData[0];
+            const streamIndex = headerRow.indexOf('Stream');
+            const genderIndex = headerRow.indexOf('Gender');
+            const placeabilityIndex = headerRow.indexOf('Placeability');
+
+            if (streamIndex === -1 || genderIndex === -1 || placeabilityIndex === -1) {
+                setSnackbarMessage("Error: 'Stream', 'Gender', or 'Placeability' column was not found!");
+                setOpenSnackbar(true);
+                return;
+            }
+
+            const streamGenderCounts = {
+                CSE: { MALE: 0, FEMALE: 0 },
+                IT: { MALE: 0, FEMALE: 0 },
+                ECE: { MALE: 0, FEMALE: 0 },
+                EE: { MALE: 0, FEMALE: 0 },
+                AEIE: { MALE: 0, FEMALE: 0 }
+            };
+
+            jsonData.slice(1).forEach(row => {
+                const placeability = row[placeabilityIndex];
+                if (placeability !== 'Placeable') return;
+
+                const stream = row[streamIndex];
+                const gender = row[genderIndex];
+
+                if (streamGenderCounts[stream] && streamGenderCounts[stream][gender] !== undefined) {
+                    streamGenderCounts[stream][gender]++;
+                }
+            });
+            setCSECounts(streamGenderCounts.CSE);
+            setITCounts(streamGenderCounts.IT);
+            setECECounts(streamGenderCounts.ECE);
+            setEECounts(streamGenderCounts.EE);
+            setAEIECounts(streamGenderCounts.AEIE);
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    function handleAboutusButton(){
+        navigate('/AboutUs');
+    }
+
+    const chartSetting = {
+        yAxis: [
+            {
+                label: 'Placeable Students Count'
+            }
+        ],
+        sx: {
+            [`.${axisClasses.left} .${axisClasses.label}`]: {
+                transform: 'translate(-20px, 0)',
+            },
+        },
+    };
 
     useEffect(() => {
         if(Cookies.get('token') === undefined){
@@ -540,7 +613,7 @@ function Home() {
                             flexDirection: 'row',
                             justifyContent: 'space-evenly',
                             weight: '100%',
-                            height: '26vh',
+                            height: '24vh',
                             borderRadius: '10px',
                             backgroundColor: '#7AB2D3'
                         }}>
@@ -588,13 +661,12 @@ function Home() {
                                 display: 'flex',
                                 flexDirection: 'row',
                                 width: '15vw',
-                                height: '20vh',
+                                height: '18vh',
                                 borderRadius: '10px',
                                 margin: '0.5vw',
                                 marginTop: '1.5vw',
                                 backgroundColor: placeableColor,
-                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
-                                opacity: hideBox
+                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
                             }}>
                                 <Box sx={{
                                     display: 'flex',
@@ -606,7 +678,7 @@ function Home() {
                                     borderRadius: '10px',
                                 }}>
                                     <Typography
-                                        color='#4a4a4a'
+                                        color='#333333'
                                         sx={{
                                             fontSize: '3.6em',
                                             fontWeight: '400',
@@ -684,13 +756,12 @@ function Home() {
                                 display: 'flex',
                                 flexDirection: 'row',
                                 width: '15vw',
-                                height: '20vh',
+                                height: '18vh',
                                 borderRadius: '10px',
                                 margin: '0.5vw',
                                 marginTop: '1.5vw',
                                 backgroundColor: '#d79cff',
-                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
-                                opacity: hideBox
+                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
                             }}>
                                 <Box sx={{
                                     display: 'flex',
@@ -780,13 +851,12 @@ function Home() {
                                 display: 'flex',
                                 flexDirection: 'row',
                                 width: '15vw',
-                                height: '20vh',
+                                height: '18vh',
                                 borderRadius: '10px',
                                 margin: '0.5vw',
                                 marginTop: '1.5vw',
                                 backgroundColor: '#ae9cff',
-                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
-                                opacity: hideBox
+                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
                             }}>
                                 <Box sx={{
                                     display: 'flex',
@@ -874,25 +944,107 @@ function Home() {
                             </Box>
                         </Box>
                         <Box sx={{
-                            alignItems: 'center',
+                            display: 'flex',
+                            flexDirection: 'row',
                             borderRadius: '10px',
-                            height: '59%',
+                            height: '62%',
                             width: '95.5%',
                             margin: '1.5vw',
                             marginTop: '0',
                             backgroundColor: '#ccd8d9',
-                            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
-                            opacity: hideBox
+                            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)'
                         }}>
+                            <Box sx={{
+                                height: '95%',
+                                width: '40%',
+                                borderRadius: '10px',
+                                backgroundColor: '#e8e8e8',
+                                margin: '0.5vw',
+                                display: 'flex',
+                                justifyContent: 'left',
+                                alignItems: 'center'
+                            }}>
+                                <PieChart
+                                    series={[
+                                        {
+                                            data: [
+                                                { id: 0, value: placeablePercentage, label: 'Placeable-%' },
+                                                { id: 1, value: (100 - parseInt(placeablePercentage)), label: 'Unplaceable-%' },
+                                            ],
+                                            innerRadius: 15,
+                                            paddingAngle: 3,
+                                            cornerRadius: 6,
+                                            cx: '40%',
+                                            cy: '50%',
+                                            highlightScope: { fade: 'global', highlight: 'item' },
+                                            faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' }
+                                        },
+                                    ]}
+                                    width={400}
+                                    height={200}
+                                />
+                            </Box>
+                            <Box sx={{
+                                height: '95%',
+                                width: '60%',
+                                borderRadius: '10px',
+                                backgroundColor: '#e8e8e8',
+                                margin: '0.5vw',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingLeft: '0.8vw',
+                            }}>
+                                <BarChart
+                                    xAxis={[{ scaleType: 'band', data: ['CSE', 'IT', 'ECE', 'EE', 'AEIE'] }]}
+                                    series={[
+                                        {data: [CSECounts.FEMALE, ITCounts.FEMALE, ECECounts.FEMALE, EECounts.FEMALE, AEIECounts.FEMALE],
+                                            label: 'FEMALE', color: '#b03bff' },
+                                        {data: [CSECounts.MALE, ITCounts.MALE, ECECounts.MALE, EECounts.MALE, AEIECounts.MALE],
+                                            label: 'MALE', color: '#471fff' }]}
+                                    width={500}
+                                    height={290}
+                                    borderRadius={5}
+                                    {...chartSetting}
+                                />
+                            </Box>
                         </Box>
                     </Box>
                 </Box>
                 <Box sx={{
                     display: 'flex',
+                    flexDirection: 'row',
                     width: '100vw',
                     height: '8vh',
-                    backgroundColor: '#7AB2D3'
+                    backgroundColor: '#7AB2D3',
+                    alignItems: 'center'
                 }}>
+                    <Typography sx={{
+                        fontSize: '0.8em',
+                        fontWeight: '900',
+                        marginLeft: '3vw'
+                    }}>
+                        {'Copyright © RCCIIT PDA Team '}
+                        {new Date().getFullYear()}
+                        {'.'}
+                    </Typography>
+                    <Box sx={{
+                        display: 'flex',
+                        flexGrow: 1,
+                        justifyContent: 'flex-end'
+                    }}>
+                        <Button
+                            onClick={handleAboutusButton}
+                            sx={{
+                                marginRight: '3vw',
+                                color: '#ffffff',
+                                backgroundColor: '#277aab',
+                                fontWeight: '400'
+                            }}
+                            >
+                            About Us
+                        </Button>
+                    </Box>
                 </Box>
             </Box>
         </>
