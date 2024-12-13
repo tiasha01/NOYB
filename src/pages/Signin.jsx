@@ -90,6 +90,10 @@ function Signin() {
         setOpenSnackbar(false);
     }
 
+    function handleAboutusButton(){
+        navigate('/AboutUs');
+    }
+
     useEffect(() => {
         if(Cookies.get('token') !== undefined){
           navigate('/Home');
@@ -101,8 +105,8 @@ function Signin() {
             <Box sx={{
                     display: 'flex',
                     width: '100vw',
-                    height: '100vh',
-                }}>
+                    height: '92vh',
+            }}>
                 {(<Backdrop
                     sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
                     open={openBackdrop}
@@ -110,12 +114,13 @@ function Signin() {
                     <CircularProgress color="inherit" />
                 </Backdrop>)}
                 <Box sx={{ width: '60vw',
-                        height: '100vh',
+                        height: '92vh',
                         display: 'flex',
                         justifyContent: 'flex-start',
                         backgroundColor: '#4A628A'
-                    }}>
-                    <Box sx={{ height: '100vh',
+                }}>
+                    <Box
+                        sx={{ height: '92vh',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'flex-start',
@@ -157,7 +162,7 @@ function Signin() {
                     </Box>
                 </Box>
                 <Box sx={{ width: '40vw',
-                    height: '100vh',
+                    height: '92vh',
                     backgroundColor: '#B9E5E8'
                 }}>
                     <Box sx={{
@@ -254,6 +259,41 @@ function Signin() {
                         autoHideDuration={2000}
                         message={snackbarMessage}
                     />
+                </Box>
+            </Box>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                width: '100vw',
+                height: '8vh',
+                backgroundColor: '#7AB2D3',
+                alignItems: 'center'
+            }}>
+                <Typography sx={{
+                    fontSize: '0.8em',
+                    fontWeight: '900',
+                    marginLeft: '3vw'
+                }}>
+                    {'Copyright © RCCIIT PDA Team '}
+                    {new Date().getFullYear()}
+                    {'.'}
+                </Typography>
+                <Box sx={{
+                    display: 'flex',
+                    flexGrow: 1,
+                    justifyContent: 'flex-end'
+                }}>
+                    <Button
+                        onClick={handleAboutusButton}
+                        sx={{
+                            marginRight: '3vw',
+                            color: '#ffffff',
+                            backgroundColor: '#7AB2D3',
+                            fontWeight: '900'
+                        }}
+                    >
+                        About Us
+                    </Button>
                 </Box>
             </Box>
         </>

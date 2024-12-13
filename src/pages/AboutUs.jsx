@@ -1,5 +1,4 @@
-import {Box, Button, Tooltip, Typography} from "@mui/material";
-import LogoutIcon from "@mui/icons-material/Logout";
+import {Box, Button, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 
 function Aboutus(){
@@ -53,11 +52,11 @@ function Aboutus(){
                             sx={{
                                 marginRight: '3vw',
                                 color: '#ffffff',
-                                backgroundColor: '#277aab',
-                                fontWeight: '400'
+                                backgroundColor: '#4A628A',
+                                fontWeight: '900'
                             }}
                         >
-                            Home
+                            Back
                         </Button>
                     </Box>
                 </Box>

@@ -958,7 +958,7 @@ function Home() {
                                 height: '95%',
                                 width: '40%',
                                 borderRadius: '10px',
-                                backgroundColor: '#e8e8e8',
+                                backgroundColor: '#f5f5f5',
                                 margin: '0.5vw',
                                 display: 'flex',
                                 justifyContent: 'left',
@@ -988,7 +988,7 @@ function Home() {
                                 height: '95%',
                                 width: '60%',
                                 borderRadius: '10px',
-                                backgroundColor: '#e8e8e8',
+                                backgroundColor: '#f5f5f5',
                                 margin: '0.5vw',
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -1038,8 +1038,8 @@ function Home() {
                             sx={{
                                 marginRight: '3vw',
                                 color: '#ffffff',
-                                backgroundColor: '#277aab',
-                                fontWeight: '400'
+                                backgroundColor: '#7AB2D3',
+                                fontWeight: '900'
                             }}
                             >
                             About Us
